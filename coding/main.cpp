@@ -4,30 +4,36 @@
 #include <chrono>
 #include <cmath>
 
-#include "BankRekening.h"
-#include "Transactie.h"
+#include "ELf.h"
+#include "Orc.h"
+#include "Farmer.h"
+#include "Soldier.h"
+#include "Shaman.h"
+
 int main()
 {
+    NPC *elf = new Elf("Legolas");
+    NPC *orc = new Orc("Azog");
+
+    NPC *farmerElf = new Farmer(elf);
+    NPC *soldierShamanOrc = new Soldier(new Shaman(orc));
+
+    // elf->render();              // Print alleen de Elf
+    // farmerElf->render();        // Print de Elf met Farmer rol
+    soldierShamanOrc->render(); // Print de Orc met Soldier en Shaman rollen
+
+    //deze while loop staat er in omdat anders de console direct afsluit.
     bool isRunning = true;
-
-    // BankRekening Rekening;
-    Transactie Transactie;
-
-    // Rekening.Run();
     while (isRunning)
     {
-        float input;
-        std::cout << "Enter your transaction amount: ";
-        // std::getline(std::cin, input);
-        while (!(std::cin >> input))
-        {
-            std::cout << "You entered tekst. Please enter a number" << input << std::endl;
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore invalid input
-        }
 
-        double NewSaldo = Transactie.NieuweTransactie(input, 0);
-        std::cout << "New saldo: " << std::ceil(NewSaldo * 100) / 100 << std::endl;
     }
+    
+    // Vergeet niet om gealloceerd geheugen vrij te geven
+    delete elf;
+    delete orc;
+    delete farmerElf;
+    delete soldierShamanOrc;
+
     return 0;
 }
